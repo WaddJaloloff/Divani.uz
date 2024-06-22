@@ -1,0 +1,392 @@
+{% load static %}
+<!DOCTYPE html>
+<!-- saved from url=(0062)/home-4.html -->
+<html lang="en" class="">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <title>Divani.uz - Диваны нового поколения </title>
+    <link rel="icon" href="{% static 'images/biglogo1.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="./css" rel="stylesheet">
+
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/aos.css'%}" rel="stylesheet">    
+    <style>
+        .btn-show-more {
+            display: inline-block;
+            background-color: dimgray;
+            padding: 0% 015px;
+            border-radius: 100%;
+            text-align: center;
+            font-size: 30px;
+            margin-bottom: 50px;
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+        .btn-show-more button {
+            margin: 0;
+        }
+    </style>
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+    <style id="fit-vids-style">
+        .fluid-width-video-wrapper {
+            width: 100%;
+            position: relative;
+            padding: 0;
+        }
+
+        .fluid-width-video-wrapper iframe,
+        .fluid-width-video-wrapper object,
+        .fluid-width-video-wrapper embed {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script type="text/javascript" charset="UTF-8" src="{% static 'js/common.js' %}"></script>
+    <script type="text/javascript" charset="UTF-8" src="{% static 'js/util.js' %}"></script>
+</head>
+<div id="main-content" class="m-scene">
+    <!-- Header -->
+    <nav id="nav" class="navbar navbar-toggleable-md header-center  px-5-percent ">
+        <div class="full-width-container">
+            <button style="margin-right: -15px;" class="navbar-toggler navbar-toggler-right hamburger-menu-btn ml-auto collapsed" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span>toggle menu</span>
+            </button>
+            <div class="row align-items-center" style="margin-left: 0px;" id="section1">
+                <div class="col-md-5">
+                    <div class="navbar-collapse collapse" id="navbarNavDropdown" aria-expanded="false" style>
+                        <ul class="navbar-nav">
+                            <li class="active current">
+                                <a href="/home-4.html#" data-toggle="dropdown">Главная</a>
+                                
+                            </li>
+                            <li>
+                                <a class="dropdown-toggle" href="#products" data-toggle="dropdown">Продукты</a>
+                                <!--<ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-toggle" href="/page-about-us.html" data-toggle="dropdown">About</a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="/about-us.html">About Us</a>
+                                            </li>
+                                            <li>
+                                                <a href="/page-about-us-2.html.html">About Us 2</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-toggle" href="/page-services.html" data-toggle="dropdown">Services</a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="/page-services.html">Services</a>
+                                            </li>
+                                            <li>
+                                                <a href="/page-services-2.html">Services page 2</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-toggle" href="/page-contact-map.html" data-toggle="dropdown">Contact</a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="/page-contact-map.html">Contact Map 1</a>
+                                            </li>
+                                            <li>
+                                                <a href="/page-contact-map-2.html">Contact Map 2</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>-->
+                            </li>
+                            <li>
+                                <a href="#aboutus" data-toggle="dropdown">О нас</a>
+                                
+                            </li>
+                            <li>
+                                <a href="#footer" data-toggle="dropdown">Контакты</a>
+                                
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <a class="navbar-brand" href="#">
+                        <img style="width: 100px;" src="{% static 'images/logo.png' %}" width="162" height="45" alt="Logo">
+                    </a>
+                </div>
+                <!--<div class="col-md-5">
+                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                        <ul class="navbar-nav ml-auto">
+                            <li>
+                                <a href="/home-4.html#">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a href="/home-4.html#">
+                                    <i class="fa fa-user-o" aria-hidden="true"></i>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a href="/home-4.html#">
+                                    <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                                </a>
+                                <span class="counter-shop-box">2</span>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+    </nav>
+    <!-- End Header -->
+    <div class="page-container scene-main scene-main--fade_In">
+
+        <!-- main page -->
+
+
+        <div class="fluid-container px-5-percent">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="main-carousel" class="owl-carousel default-carousel owl-loaded owl-drag">
+
+
+
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage">
+                                <div class="owl-item cloned">
+                                    <div class="carousel-item">
+                                        <div class="carousel-item-content">
+                                            <div class="fluid-container">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-5 offset-1">
+                                                        <h1>Ждем Вас
+                                                            <br> у нашего стенда</h1>
+                                                        <p class="lead mb_30  hidden-md-down">CAEx Mebel&Decor
+                                                        </p>
+                                                        <a href="https://yandex.uz/maps/org/caex_uzbekistan/187997993149/?from=mapframe" class="btn btn-default">Адрес</a>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <img src="{% static 'images/image-credit-nendo-49.jpg' %}" alt="Product Img">
+                                        </div>
+                                        <div id="aboutus" name="aboutus"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="owl-nav disabled">
+                            <div class="owl-prev">prev</div>
+                            <div class="owl-next">next</div>
+                        </div>
+                        <!-- <div class="owl-dots">
+                            <div class="owl-dot active"><span></span></div>
+                            <div class="owl-dot"><span></span></div>
+                            <div class="owl-dot"><span></span></div>
+                        </div> -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="container mt_70 mb_50" id="section2">
+            <div class="row">
+                <div class="col-md-8 offset-md-2 align-center">
+                    <h2>О нас</h2>
+                    <p>Наша компания на рынке уже более 15 лет. Мы гордимся нашим опытом и профессионализмом, которые мы вкладываем в каждый продукт. Наша цель - обеспечить клиентам самое высокое качество продукции и поддерживать долгосрочные отношения на
+                        основе доверии к бренду.
+                    </p>
+                    <div id="products"></div>zz
+                </div>
+            </div>
+        </div>
+
+
+        <div class="fluid-container px-5-percent">
+            <ul id="tavar" class="row products">
+                {% for post in page_obj %}
+                    <li class="product col-md-3 col-sm-6">
+                        <a href="#">
+                            <div style="width: 430; height: 480;">
+                                <img src="{{ post.image1.url }}" alt="{{ post.title }}"  width="430" height="480">
+                            </div>
+                            <h2>{{ post.title }}</h2>
+                            <span class="price">
+                                <span class="amount">
+                                    <span class="currencySymbol">$</span>{{ post.price }}
+                                </span>
+                            </span>
+                        </a>
+                        <a rel="nofollow" href="{% url 'post_detail' post.id %}" class="btn-bottom-line"> Купить</a>
+                    </li>
+                {% endfor %}
+
+
+<script>
+    function showInfo(postId) {
+        // Ajax request yuboring va post nomi va narxini info.html ga chiqaring
+    }
+</script>
+
+            </ul>
+            <center style="margin-bottom: 2%;">
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }} ">Ko'proq ko'rsatish</a>
+                {% endif %}
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}">Orqaga</a>
+                {% endif %}
+                
+            </center>
+
+
+
+            
+        </div>
+
+        <div class="bg-grey-light pt_100 pb_100 align-center mx-5-percent">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3 align-center">
+                        <h2>Новости</h2>
+                        <p>Подпишитесь на новостную рассылку </p>
+                        <div class="row mt_40">
+                            <div class="input-group col-md-8 offset-md-2">
+                                <input type="text" class="form-control" placeholder="Enter your email">
+                                <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button">Submit</button>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- main page end -->
+        <div class="px-5-percent">
+            <footer id="footer">
+                <div class="footer_container">
+                    <div class="fluid-container">
+                        <div class="row align-items-center">
+                            <div class="col-lg-4">
+                                <p>
+                                    © 2024 uzbpo.com
+                                </p>
+                            </div>
+                            <div class="col-lg-4">
+                                <ul class="footer_nav align-center">
+                                    <li>
+                                        <a href="#nav" target="blank" title="portfolio">Главная</a>
+                                    </li>
+                                    <li>
+                                        <a href="#products" target="blank" title=" blog">Продукты</a>
+                                    </li>
+                                    <li>
+                                        <a href="#aboutus" target="blank" title="shop">О нас</a>
+                                    </li>
+                                    <li>
+                                        <a href="#contacts" target="blank" title="elements">Контакты</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-4 align-right">
+                                <ul class="list-inline">
+                                    <li>
+                                        <a href="https://www.facebook.com/energeticthemes">
+                                                <i class="fa fa-facebook" aria-hidden="true"></i>
+                                            </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://instagram.com/energeticthemes">
+                                                <i class="fa fa-instagram" aria-hidden="true"></i>
+                                            </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://behance.com/energeticthemes">
+                                                <i class="fa fa-behance" aria-hidden="true"></i>
+                                            </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://twitter.com/energeticthemes">
+                                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                                            </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Add smooth scrolling to all links
+        $("a").on('click', function(event) {
+
+            // Make sure this.hash has a value before overriding default behavior
+            if (this.hash !== "") {
+                // Prevent default anchor click behavior
+                event.preventDefault();
+
+                // Store hash
+                var hash = this.hash;
+
+                // Using jQuery's animate() method to add smooth page scroll
+                // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 800, function() {
+
+                    // Add hash (#) to URL when done scrolling (default click behavior)
+                    window.location.hash = hash;
+                });
+            } // End if
+        });
+    });
+</script>
+
+
+<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'plugins.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.smoothState.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+<script></script>
+</body>
+
+</html>

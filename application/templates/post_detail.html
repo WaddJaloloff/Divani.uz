@@ -1,0 +1,45 @@
+
+        <div class="fluid-container px-5-percent">
+            <div class="slider">
+                <div class="slide">
+                    {% for post in posts %}
+                    <li class="product col-md-3 col-sm-6">
+                        <a href="#">
+                            <img src="{{ post.image1.url }}" alt="{{ post.title }}"  width="430" height="480">
+                            <h2>{{ post.title }}</h2>
+                            <span class="price">
+                                <span class="amount">
+                                    <span class="currencySymbol">$</span>{{ post.price }}
+                                </span>
+                            </span>
+                        </a>
+                        <a rel="nofollow" href="{% url 'post_detail' post.id %}" class="btn-bottom-line"> Купить</a>
+                    </li>
+                    {% endfor %}
+                </div>
+                {% if posts|length > 8 %}
+                <div class="slide">
+                    <ul class="row products">
+                        {% for post in posts|slice:"8:" %}
+                        <li class="product col-md-3 col-sm-6">
+                            <a href="#">
+                                <img src="{{ post.image1.url }}" alt="{{ post.title }}"  width="430" height="480">
+                                <h2>{{ post.title }}</h2>
+                                <span class="price">
+                                    <span class="amount">
+                                        <span class="currencySymbol">$</span>{{ post.price }}
+                                    </span>
+                                </span>
+                            </a>
+                            <a rel="nofollow" href="{% url 'post_detail' post.id %}" class="btn-bottom-line"> Купить</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+            <!-- Navigatsiya tugmalar -->
+            {% if posts|length > 8 %}
+            <button class="next-slide">Keyingi</button>
+            {% endif %}
+        </div>

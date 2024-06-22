@@ -1,0 +1,180 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order List</title>
+    <link rel="stylesheet" href="{% static 'css/style2.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+
+    <div id="order-list-content" style="margin-top: 40px;">
+        <div id="greeting" > 
+                    
+                    <button style="border-radius: 30%; margin-left: 90%;" onclick="hideGreeting()">X</button>
+            
+            <div class="card">
+
+                <div class="row" style="width: auto;">
+                    <div class="col-md-8 cart">
+                        <div class="title">
+                            <div class="row">
+                                <div class="col"><h4><b>Shopping Cart</b></h4></div>
+                                <div class="col align-self-center text-right text-muted"></div>
+                            </div>
+                        </div>  
+                        {% if products %}
+                            <ul id="cart-items">
+                                {% for product in products %}
+
+                                <div class="row border-top border-bottom" data-post-id="{{ product.post.id }}">
+                                    <div class="row main align-items-center">
+                                        <div class="col-2"><img class="img-fluid" src="{{ product.post.image1.url }}" alt="{{ product.post.title }}"></div>
+                                        <div class="col">
+                                            <div class="row text-muted">Shirt</div>
+                                            <div class="row">{{ product.post.title }}</div>
+                                        </div>
+                                        <div class="col">
+                                            <div>
+                                                <input style="width: 70px;" type="number" id="quantity_{{ product.post.id }}" class="quantity-input" value="{{ product.quantity }}" min="1" data-post-id="{{ product.post.id }}">
+                                            </div>
+                                        </div>
+                                            <form action="{% url 'remove_from_cart' product.post.id %}" method="post">
+                                                <div class="col" style="margin-right: 50px;">&dollar; {{ product.post.price }}
+                                                {% csrf_token %}
+                                                <button type="submit" class="close">&#10005;</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </ul>
+
+                        
+                        {% else %}
+                            <p>Savat hozircha bo'm bo'sh.</p>
+                        {% endif %}
+        
+                        
+                        <div class="back-to-shop">
+                            <a href="#">&leftarrow;<span class="text-muted" id="ortga-btn">Back to shop</span></a>
+                            <a id="clear-cart-btn" href="#"><span class="text-muted">clear</span></a>
+                        </div>
+                    </div>
+                    <div class="col-md-4 summary">
+                        <div><h5><b>Summary</b></h5></div>
+                        <hr>
+                        <div class="row">
+                            <div class="col" style="padding-left: 15px;"></div>
+                            <div class="col text-right"></div>
+                        </div>
+                        <form>
+                            <p>ПЕРЕВОЗКИ</p>
+                            <select><option class="text-muted">Доставка</option><option class="text-muted">Самовынос</option></select>
+
+                        </form>
+                        <form>
+                            <p>СПОСОБ ОПЛАТЫ    </p>
+                            <select><option class="text-muted">Карта</option><option class="text-muted">Наличные</option></select>
+
+                        </form>
+                        <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                            <div class="col">TOTAL PRICE</div>
+                            <div class="col text-right"><span id="total-price">&dollar;{{ total_price }}</span></div>
+                        </div>
+                        <button style="
+                            background-color: #000;
+                            border-color: #000;
+                            color: white;
+                            width: 100%;
+                            font-size: 0.7rem;
+                            margin-top: 4vh;
+                            padding: 1vh;
+                            border-radius: 0;
+                        " id="place-order-btn">Place Order</button>
+                    </div>
+            </div>
+        </div>
+            
+        
+    </div>
+    </div>
+ 
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.quantity-input').on('input', function() {
+                var postId = $(this).data('post-id');
+                var quantity = $(this).val();
+
+                $.ajax({
+                    url: "{% url 'update_cart' post_id=0 action='dummy' %}".replace('0', postId).replace('dummy', 'update'),
+                    method: "POST",
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        quantity: quantity
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            $('#total-price').text(response.total_price);
+                        } else {
+                            console.error('Update failed:', response.error);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX request failed:', status, error);
+                    }
+                });
+            });
+
+            $('#clear-cart-btn').click(function() {
+                $.ajax({
+                    url: "{% url 'clear_cart' %}",
+                    method: "POST",
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            location.reload();
+                        } else {
+                            console.error('Clear cart failed:', response.error);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX request failed:', status, error);
+                    }
+                });
+            });
+
+            $('#place-order-btn').click(function() {
+                window.location.href = "{% url 'order' %}";
+            });
+            $('#ortga-btn').click(function() {
+                    window.history.back();
+                });
+        });
+    
+    </script>
+        <script>
+            function showGreeting() {
+                document.getElementById("greeting").style.display = "block";
+            }
+            function hideGreeting() {
+                document.getElementById("greeting").style.display = "none";
+            }
+        </script>
+        <style>
+            #greeting {
+                display: none;
+            }
+        </style>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</body>
+</html>
