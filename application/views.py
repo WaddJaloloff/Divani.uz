@@ -1,12 +1,10 @@
+
 from django.shortcuts import render, redirect, get_object_or_404
-from application.models import Post, Order, OrderItem, Buyurtma, Product
+from application.models import *
 from django.views.decorators.http import require_POST
 from django.http import HttpResponse, JsonResponse
 from django.core.paginator import Paginator
-from django.views.decorators.csrf import csrf_exempt
 from decimal import Decimal
-import decimal
-import json
 
 def clear_cart(request):
     if request.method == 'POST':
@@ -25,42 +23,49 @@ def index(request):
 def post_detail(request, post_id):
     # Post obyektini bazadan olish yoki topilmaganda 404 xatolik qaytarish
     post = get_object_or_404(Post, id=post_id)
-    
+
     # Savatcha ma'lumotlarini sessiondan olish, mavjud bo'lmagan holda bo'sh lug'at qaytarish
     cart = request.session.get('cart', {})
-    
+
     # Mahsulotlar ro'yxatini joylash uchun bo'sh ro'yxat tayyorlash va umumiy narxni boshlash
     products = []
     total_price = 0
-    
+
     # Savatchadagi har bir mahsulot uchun bu mos keladigan Post obyektini qidirish
     for cart_post_id, quantity in cart.items():
         try:
             cart_post_id = int(cart_post_id)  # cart_post_id ni butun sona aylantiramiz
         except ValueError:
             continue  # Agar cart_post_id to'g'ri butun son emas bo'lsa, bu elementni o'tkazamiz
-        
+
         # Post obyektini bazadan olish yoki 404 xatolik qaytarish
         cart_post = get_object_or_404(Post, id=cart_post_id)
-        
+
         # Ushbu mahsulot uchun narxni hisoblash
         product_price = cart_post.price * quantity
         total_price += product_price
-        
+
         # Mahsulotlar ro'yxatiga mahsulot ma'lumotlarini qo'shish
         products.append({
             'post': cart_post,
             'quantity': quantity,
             'product_price': product_price
         })
-    
+
+    # Barcha maqolalarni olish
+    all_posts = Post.objects.all()
+    paginator = Paginator(all_posts, 4)  # Sahifadagi postlar soni
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     # Ma'lumotlarni 'info.html' shabloniga o'tkazish uchun render funksiyasidan foydalanish
     context = {
         'post': post,
         'products': products,
-        'total_price': total_price
+        'total_price': total_price,
+        'page_obj': page_obj
     }
-    
+
     return render(request, 'info.html', context)
 
 
@@ -75,8 +80,13 @@ def add_to_cart(request):
         cart[post_id] = int(cart.get(post_id, 0)) + int(quantity)
         request.session['cart'] = cart
         return HttpResponse(status=204)  # Ma'lumotlar muvaffaqiyatli saqlandi
-    return HttpResponse(status=204)
+    return JsonResponse({'error': 'Invalid data'}, status=400)
 
+
+def cart_count(request):
+    cart = request.session.get('cart', {})
+    cart_item_count = sum(cart.values())
+    return JsonResponse({'cart_item_count': cart_item_count})
 
 
 def calculate_total_price(cart):
@@ -120,7 +130,7 @@ def place_order(request):
         return JsonResponse({'success': True, 'order_id': buyurtma.id, 'total_price': str(total_price)})
     else:
         return JsonResponse({'success': False, 'error': 'Invalid request method'})
-    
+
 
 def order(request):
     return render(request, 'order.html')
@@ -128,7 +138,7 @@ def order(request):
 @require_POST
 def update_cart(request, post_id, action):
     cart = request.session.get('cart', {})
-    
+
     if action == 'update':
         quantity = int(request.POST.get('quantity', 0))
         if quantity > 0:
@@ -139,7 +149,7 @@ def update_cart(request, post_id, action):
     elif action == 'remove':
         if str(post_id) in cart:
             del cart[str(post_id)]
-    
+
     request.session['cart'] = cart
     return JsonResponse({'success': True, 'total_price': calculate_total_price(cart)})
 
@@ -156,4 +166,3 @@ def remove_from_cart(request, post_id):
         return redirect('post_detail', id=post_id)  # order_list sahifasiga o'tish
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)})
-
