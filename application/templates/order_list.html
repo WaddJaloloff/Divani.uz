@@ -23,7 +23,7 @@
                     <div class="col-md-8 cart">
                         <div class="title">
                             <div class="row">
-                                <div class="col"><h4><b>Shopping Cart</b></h4></div>
+                                <div class="col"><h4><b>Корзина</b></h4></div>
                                 <div class="col align-self-center text-right text-muted"></div>
                             </div>
                         </div>  
@@ -40,7 +40,7 @@
                                         </div>
                                         <div class="col">
                                             <div>
-                                                <input style="width: 70px;" type="number" id="quantity_{{ product.post.id }}" class="quantity-input" value="{{ product.quantity }}" min="1" data-post-id="{{ product.post.id }}">
+                                                <input style="width: 70px; padding: 10px 20px;" type="number" id="quantity_{{ product.post.id }}" class="quantity-input" value="{{ product.quantity }}" min="1" data-post-id="{{ product.post.id }}">
                                             </div>
                                         </div>
                                             <form action="{% url 'remove_from_cart' product.post.id %}" method="post">
@@ -56,17 +56,17 @@
 
                         
                         {% else %}
-                            <p>Savat hozircha bo'm bo'sh.</p>
+                            <p>Корзина на данный момент пуста.</p>
                         {% endif %}
         
                         
                         <div class="back-to-shop">
-                            <a href="#">&leftarrow;<span class="text-muted" id="ortga-btn">Back to shop</span></a>
-                            <a id="clear-cart-btn" href="#"><span class="text-muted">clear</span></a>
+                            <a href="#">&leftarrow;<span class="text-muted" onclick="hideGreeting()">Назад</span></a>
+                            <a id="clear-cart-btn" href="#"><span class="text-muted">Очистить корзину</span></a>
                         </div>
                     </div>
                     <div class="col-md-4 summary">
-                        <div><h5><b>Summary</b></h5></div>
+                        <div><h5><b>Тип доставки</b></h5></div>
                         <hr>
                         <div class="row">
                             <div class="col" style="padding-left: 15px;"></div>
@@ -83,7 +83,7 @@
 
                         </form>
                         <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                            <div class="col">TOTAL PRICE</div>
+                            <div class="col">Итоговая цена</div>
                             <div class="col text-right"><span id="total-price">&dollar;{{ total_price }}</span></div>
                         </div>
                         <button style="
@@ -95,7 +95,7 @@
                             margin-top: 4vh;
                             padding: 1vh;
                             border-radius: 0;
-                        " id="place-order-btn">Place Order</button>
+                        " id="place-order-btn">Разместить заказ</button>
                     </div>
             </div>
         </div>
