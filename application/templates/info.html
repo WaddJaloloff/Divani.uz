@@ -31,7 +31,7 @@
       <style>
         slider{
   display: flex;
-  
+
 }
 .slides{
   margin-right: 10px;
@@ -54,18 +54,32 @@
   width: 520px;
   height: 520px;
 }
+.navbar-toggler {
+    width: 80px;
+  display: block; /* Yoki inline-block */
+  visibility: visible;
+  opacity: 1;
+}
 
       </style>
 </head>
 
 <body>
     <div id="main-content" class="m-scene">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon" style="padding-left: 30px;">
+                    <div style="color: #fff; background: #000; border-radius: 75%; width: 20px;">
+                        <span style="margin-left: 7px;" class="counter-shop-box" id="cart-item-count-navbar"></span>
+                    </div>
+                </span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            </div>
+          </nav>
         <nav class="navbar navbar-toggleable-md px-5-percent">
             <div class="full-width-container">
-                <button class="navbar-toggler navbar-toggler-right hamburger-menu-btn ml-auto collapsed" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span>toggle menu</span>
-                    </button>
             <a style="color: #000;" class="navbar-brand" href="index.html">
                 <img style="margin-left: 100px; " src="{% static 'images/logo.png' %}" width="162" height="45" alt="Logo">
             </a>
@@ -82,17 +96,13 @@
                 </li>
                 <li>
                     <a style="color: #000;" class="dropdown-toggle" href="{% url 'index' %}#footer" data-toggle="dropdown">Контакты</a>
-                </li>
+                </li> 
                 <li>
-                    <img src="{% static 'images/search.png' %}" alt="Qidiruv" width="20px">
+                    <img onclick="showGreeting(); refreshPage();" src="{% static 'images/savat.png' %}" width="23px" alt="Savat">
+                    <span style="margin-left: 7px;" class="counter-shop-box" id="cart-item-count-sidebar"></span>
+                </li>
 
-                </li>
-                <li>
-                    
-                    <img  onclick="showGreeting()" src="{% static 'images/Savat.png' %}" width="23px" alt="Savat">
-                    <span style="margin-left: 7px;" class="counter-shop-box">{{ request.session.cart|length }}</span>
-                </li>
-                
+
 
             </ul>
             </div>
@@ -100,29 +110,6 @@
             </nav>
         <div class="page-container scene-main scene-main--fade_In">
 
-            <div class="etcodes_breadcrumb bg-grey-light mx-5-percent">
-                <div class="fluid-container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="breadcrumbs">
-                                <span class="first-item">
-<a style="color: #000;" href="#">Home</a>
-</span>
-                                <span class="separator">/</span>
-                                <span>
-<a style="color: #000;" href="#">Shop</a>
-</span>
-                                <span class="separator">/</span>
-                                <span>
-<a style="color: #000;" href="#">Furniture</a>
-</span>
-                                <span class="separator">/</span>
-                                <span class="last-item">Fusion Chair</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             {% include 'order_list.html' %}
             <div class="fluid-container px-5-percent  single-product-content" style="margin-top: 40px;">
@@ -146,8 +133,8 @@
                                     {% if post.image5 %}
                                     <img src="{{ post.image5.url }}" alt="{{ post.title }}" >
                                     {% endif %}
-                                    
-                                    
+
+
                                 </div>
                                 <img src="{{ post.image1.url }}" class="bg">
                                 </slider>
@@ -159,38 +146,33 @@
                             <h2 class="product-title">{{ post.title }}</h2>
                             <div class="single-product-price">${{ post.price }}</div>
                             <div class="single-product-rating">
-                                <a style="color: #000;" href="#">(2 customer review)</a>
+                                <a style="color: #000;" href="#">( 196 отзыва клиентов)</a>
                             </div>
                             <div class="single-product-deta">
                                 <p>{{ post.about }}</p>
 
-                                <form method="post" action="{% url 'add_to_cart' %}" >
+                                <form id="add-to-cart-form" method="post" action="{% url 'add_to_cart' %}" >
                                     {% csrf_token %}
                                     <div class="quantity d-flex">
                                         <input type="hidden" name="post_id" value="{{ post.id }}">
-                                        <input type="number" name="quantity" min="1" value="1" step="1" min="1" value="1" title="Miqdori" class="input-text qty text total-quantity" size="4">
+                                        <input type="hidden" name="quantity" value="1">
                                     </div>
-                                
-                                    <button style="width: 150px; height: 45px; background-color: #000; color: #fff; margin-left: 5px; border-radius: 3px;" onclick="tugmaBosildi()" type="submit" >Add To Cart</button>
-                                    <div class="clearfix"></div>
+                                        <a href="{% url 'post_detail' post.id %}">
+                                                <button href="" style="font-size: 14px; background-color: #000; color: #fff; width: 150px; height: 35px;" type="button" id="add-to-cart-button">Добавить в корзину</button><div class="clearfix">
+                                            </a>
+                                            
+                                    </div>
+                                  
                                     <p id="tugmaYozuv"></p>
-                                </form>
-                                <form method="post" action="{% url 'clear_cart' %}">
+                                <!--</form>
+                                 <form method="post" action="{% url 'clear_cart' %}">
                                     {% csrf_token %}
                                     <button type="submit">Savatchani tozalash</button>
-                                </form>
-                                
+                                </form> -->
 
-                                
 
-                                <ul class="single-product-meta">
-                                    <li>
-                                        <span class="meta-name">SKU:</span>03</li>
-                                    <li>
-                                        <span class="meta-name">Category:</span> Join Life</li>
-                                    <li>
-                                        <span class="meta-name">Tags:</span> Catalog, Fashion, Modern</li>
-                                </ul>
+
+
                             </div>
                         </div>
                     </div>
@@ -201,13 +183,7 @@
 
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
-                                    <a style="color: #000;" class="nav-link active " href="#ideas" role="tab" data-toggle="tab">Description</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a style="color: #000;" class="nav-link " href="#code-quality" role="tab" data-toggle="tab">Product</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a style="color: #000;" class="nav-link" href="#visual-design" role="tab" data-toggle="tab">Reviews (1)</a>
+                                    <a style="color: #000;" class="nav-link active " href="#ideas" role="tab" data-toggle="tab">О нас</a>
                                 </li>
                             </ul>
                             <div class="tab-content">
@@ -217,30 +193,13 @@
                                             <img src="{% static 'images/image-credit-nendo-44.jpg' %}" alt="product img">
                                         </div>
                                         <div class="col-md-6">
-                                            <h3>Fusion Chair Material</h3>
-                                            <p>Pellentesque interdum quam ut risus sodales, at pharetra ligula posuere. Fusce at est at ante ornare pulvinar a eget nisi. Fusce venenatis ultricies suscipit. Aliquam vel dignissim sapien. Cras vel ligula ut
-                                                lorem viverra tincidunt. Vivamus faucibus nunc non dolor fringilla, nec congue tellus bibendum.
+                                            <h3>Зачем именно Divani?</h3>
+                                            <br><br>    
+                                            <p>Каждая модель дивана в нашем онлайн-каталоге – это воплощение великолепного дизайна, легенда мебельной индустрии.
+                                                Divani.uz – это по-настоящему удобный интернет-магазин мебели. Мы предлагаем нашим клиентам современную мебель собственного производства и готовы гарантировать не только высокое качество продукции, но и низкие цены. А наши регулярные акции и специальные предложения вас приятно удивят!
                                                 <br>
-                                                <br> Mauris sit amet aliquet lacus, ac efficitur tellus. Praesent tellus magna, euismod vel nunc eu, maximus mattis eros. Duis consectetur iaculis nibh, nec ullamcorper augue ornare accumsan. Nullam imperdiet
-                                                ipsum quis sapien placerat, id euismod est bibendum.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane fade  mb_80" id="code-quality">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <p>Code Quality ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                                                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane fade  mb_80" id="visual-design">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <p>Visual Design ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                                                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit.
+                                                <br> 
+                                                Мы предлагаем лучший на сегодняшний день ассортимент предложение и обеспечиваем все удобства, чтобы быть уверенными при покупке диваны. ПРИГЛАШАЕМ Вас посетить шоурумы бренда и лично оценить используемый тканевый материал, проверить плавность наполнения и работу механизма, ПОЛУЧИТЬ УВЕРЕННОСТЬ И НАДЕЖНОСТЬ НАШЕЙ МЕБЕЛИ!
                                             </p>
                                         </div>
                                     </div>
@@ -251,54 +210,28 @@
                 </div>
                 <div class="row mb_40">
                     <div class="col-md-12">
-                        <h4>Related Products</h4>
+                        <h4>Сопутствующие товары</h4>
                     </div>
                 </div>
                 <ul class="row products">
+
+                    {% for post in page_obj %}
                     <li class="product col-md-3 col-sm-6">
-                        <a style="color: #000;" href="single-product.html">
-<img width="430" height="480" src="{% static 'images/products/image-credit-nendo-16.jpg' %}" alt="Mango Sofa Won">
-<h2>Mango Sofa Won</h2>
-<span class="price">
-<span class="amount">
-<span class="currencySymbol">$</span>69.00</span>
-</span>
-</a>
-                        <a style="color: #000;" rel="nofollow" href="single-product.html" class="btn-bottom-line">Add to cart</a>
+                        <a href="#">
+                            <div style="width: 430; height: 480;">
+                                <img src="{{ post.image1.url }}" alt="{{ post.title }}"  width="430" height="480">
+                            </div>
+                            <h2> {{ post.title }}</h2>
+                            <span class="price">
+                                <span class="amount" style="color: #000; text-align: center;">
+                                    <span class="currencySymbol"> $</span>{{ post.price }}
+                                </span>
+                            </span>
+                        </a>
+                        <a rel="nofollow" href="{% url 'post_detail' post.id %}" style="color: #000;" class="btn-bottom-line">Купить</a>
                     </li>
-                    <li class="product col-md-3 col-sm-6">
-                        <a style="color: #000;" href="single-product.html">
-<img alt="product" src="{% static 'images/products/image-credit-nendo-12.jpg' %}" width="430" height="480" />
-<h2>Campfire series for Mitab</h2>
-<span class="price">
-<span class="amount">
-<span class="currencySymbol">$</span>750.00</span>
-</span>
-</a>
-                        <a style="color: #000;" rel="nofollow" href="single-product.html" class="btn-bottom-line"> Add to cart</a>
-                    </li>
-                    <li class="product col-md-3 col-sm-6">
-                        <a style="color: #000;" href="single-product.html">
-<img alt="product" src="{% static 'images/products/image-credit-nendo-11.jpg' %}" width="430" height="480" />
-<h2>Shell stool brwon</h2>
-<span class="price">
-<span class="amount">
-<span class="currencySymbol">$</span>399.00</span>
-</span>
-</a>
-                        <a style="color: #000;" rel="nofollow" href="single-product.html" class="btn-bottom-line"> Add to cart</a>
-                    </li>
-                    <li class="product col-md-3 col-sm-6">
-                        <a style="color: #000;" href="single-product.html">
-<img alt="product" src="{% static 'images/products/image-credit-nendo-18.jpg' %}" width="430" height="480" />
-<h2>Shell stool black</h2>
-<span class="price">
-<span class="amount">
-<span class="currencySymbol">$</span>399.00</span>
-</span>
-</a>
-                        <a style="color: #000;" rel="nofollow" href="single-product.html" class="btn-bottom-line"> Add to cart</a>
-                    </li>
+                    
+                {% endfor %}
                 </ul>
             </div>
 
@@ -367,23 +300,61 @@
     <script type="text/javascript" src="js/jquery.smoothState.min.js"></script>
     <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyAE_JprYsi2sHzUcl8u1DbcUgQnDveJWs4"></script>
     <script type="text/javascript" src="js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        let images = document.querySelectorAll(".slides img").forEach(function (el){
-  el.onclick = function (){
-    document.querySelector(".bg").src = el.src
-  }
-})
-
-    </script>
-    <script>
-        function tugmaBosildi() {
-          document.getElementById("tugmaYozuv").innerText = "Savatga qo'shildi!";
-          setTimeout(function() {
-            document.getElementById("tugmaYozuv").innerText = "";
-          }, 2500); // 3 soniyadan so'ng yoqiladi
+        // Sahifa yuklanganda mahsulotlar sonini yangilang
+        $(document).ready(function() {
+            updateCartItemCount();
+        });
+    
+        function updateCartItemCount() {
+            $.ajax({
+                url: "{% url 'cart_count' %}",
+                method: "GET",
+                success: function(data) {
+                    $('#cart-item-count-navbar').text(data.cart_item_count);
+                    $('#cart-item-count-sidebar').text(data.cart_item_count);
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX request failed:', status, error);
+                }
+            });
+        }
+    
+        // Savatga mahsulot qo'shish tugmasi bosilganda mahsulotlar sonini yangilang
+        document.getElementById('add-to-cart-button').addEventListener('click', function() {
+            var form = document.getElementById('add-to-cart-form');
+            var formData = new FormData(form);
+    
+            fetch("{% url 'add_to_cart' %}", {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                }
+            }).then(response => {
+                if (response.status === 204) {
+                    tugmaBosildi('Mahsulot savatga qo\'shildi');
+                    // Savatcha elementlarini yangilash
+                    updateCartItemCount();
+                } else {
+                    tugmaBosildi('Xatolik yuz berdi');
+                }
+            });
+        });
+    
+        function tugmaBosildi(message) {
+            document.getElementById("tugmaYozuv").innerText = message;
+            setTimeout(function () {
+                document.getElementById("tugmaYozuv").innerText = "";
+            }, 2500); // 2.5 sekunddan so'ng yozuv o'chiriladi
         }
     </script>
-
+    
 </body>
 
 </html>
