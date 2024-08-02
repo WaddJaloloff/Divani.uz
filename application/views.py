@@ -18,7 +18,43 @@ def index(request):
     paginator = Paginator(all_posts, 8)  # Sahifadagi postlar soni
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'index.html', {'page_obj': page_obj})
+
+    # Savatcha ma'lumotlarini sessiondan olish, mavjud bo'lmagan holda bo'sh lug'at qaytarish
+    cart = request.session.get('cart', {})
+
+    # Mahsulotlar ro'yxatini joylash uchun bo'sh ro'yxat tayyorlash va umumiy narxni boshlash
+    products = []
+    total_price = 0
+
+    # Savatchadagi har bir mahsulot uchun bu mos keladigan Post obyektini qidirish
+    for cart_post_id, quantity in cart.items():
+        try:
+            cart_post_id = int(cart_post_id)  # cart_post_id ni butun sona aylantiramiz
+        except ValueError:
+            continue  # Agar cart_post_id to'g'ri butun son emas bo'lsa, bu elementni o'tkazamiz
+
+        # Post obyektini bazadan olish yoki 404 xatolik qaytarish
+        cart_post = get_object_or_404(Post, id=cart_post_id)
+
+        # Ushbu mahsulot uchun narxni hisoblash
+        product_price = cart_post.price * quantity
+        total_price += product_price
+
+        # Mahsulotlar ro'yxatiga mahsulot ma'lumotlarini qo'shish
+        products.append({
+            'post': cart_post,
+            'quantity': quantity,
+            'product_price': product_price
+        })
+
+    context = {
+        'page_obj': page_obj,
+        'products': products,
+        'total_price': total_price
+    }
+
+    return render(request, 'index.html', context)
+
 
 def post_detail(request, post_id):
     # Post obyektini bazadan olish yoki topilmaganda 404 xatolik qaytarish
@@ -89,13 +125,7 @@ def cart_count(request):
     return JsonResponse({'cart_item_count': cart_item_count})
 
 
-def calculate_total_price(cart):
-    total_price = Decimal(0)
-    for post_id, quantity in cart.items():
-        post = get_object_or_404(Post, id=post_id)
-        product_price = post.price * quantity
-        total_price += product_price
-    return total_price
+
 
 
 @require_POST
@@ -105,6 +135,8 @@ def place_order(request):
         phone = request.POST.get('telefon')
         address = request.POST.get('manzil')
         cart = request.session.get('cart', {})
+        tolov = request.POST.get('tolov')
+        dostavka = request.POST.get('dostavka')
 
         total_price = calculate_total_price(cart)
 
@@ -121,7 +153,9 @@ def place_order(request):
             telefon=phone,
             manzil=address,
             umumiy_narx=total_price,
-            mahsulotlar=mahsulotlar_text  # Mahsulotlar maydoniga saqlash
+            mahsulotlar=mahsulotlar_text,  # Mahsulotlar maydoniga saqlash
+            tolov =tolov,
+            dostavka=dostavka
         )
 
         # Cartni tozalash
@@ -146,6 +180,7 @@ def update_cart(request, post_id, action):
         else:
             if str(post_id) in cart:
                 del cart[str(post_id)]
+                
     elif action == 'remove':
         if str(post_id) in cart:
             del cart[str(post_id)]
@@ -156,13 +191,22 @@ def update_cart(request, post_id, action):
 
 
 
-
+@require_POST
 def remove_from_cart(request, post_id):
-    try:
-        cart = request.session.get('cart', {})
-        if str(post_id) in cart:
-            del cart[str(post_id)]
-            request.session['cart'] = cart
-        return redirect('post_detail', id=post_id)  # order_list sahifasiga o'tish
-    except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)})
+    cart = request.session.get('cart', {})
+    print("POST ID: ", post_id)  # POST ID'ni tekshirish
+    print("Cart Content: ", cart)  # Savatcha mazmunini tekshirish
+
+    if str(post_id) in cart:
+        del cart[str(post_id)]
+        request.session['cart'] = cart
+        return JsonResponse({'success': True, 'total_price': calculate_total_price(cart)})
+    return JsonResponse({'success': False, 'error': 'Item not in cart'})
+
+def calculate_total_price(cart):
+    total_price = Decimal(0)
+    for post_id, quantity in cart.items():
+        post = get_object_or_404(Post, id=post_id)
+        product_price = post.price * quantity
+        total_price += product_price
+    return total_price
