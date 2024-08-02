@@ -29,15 +29,24 @@ class OrderItem(models.Model):
     def __str__(self):
         return f"{self.quantity} x {self.post.title}"
 
+
 class Buyurtma(models.Model):
     ism = models.CharField(max_length=255)
     telefon = models.CharField(max_length=20)
     manzil = models.TextField()
     umumiy_narx = models.DecimalField(max_digits=10, decimal_places=2)
-    mahsulotlar = models.TextField()  # Mahsulotlar maydoni
-
+    mahsulotlar = models.TextField()
+    tolov = models.CharField(max_length=50, null=True, blank=True)  # Yangi maydon
+    dostavka = models.CharField(max_length=50, null=True, blank=True)  # Yangi maydon
+    status = models.CharField(max_length=50, null=True, blank=True)  # Yangi maydon
+    created_at = models.DateTimeField(auto_now_add=True)  # Avtomatik vaqt qo'shish
+    updated_at = models.DateTimeField(auto_now=True)  # Avtomatik yangilanish vaqti
+    
     def __str__(self):
         return f"Buyurtma - {self.ism}"
+
+    class Meta:
+        ordering = ['-created_at']  # Ketma-ketlikni yaratish vaqti bo'yicha tartiblash
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
