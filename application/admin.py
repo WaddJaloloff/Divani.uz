@@ -17,7 +17,7 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Buyurtma)
 class BuyurtmaAdmin(admin.ModelAdmin):
-    list_display = ('ism', 'telefon', 'manzil', 'umumiy_narx', 'mahsulotlar')
+    list_display = ('ism', 'telefon', 'manzil', 'umumiy_narx', 'mahsulotlar','tolov','dostavka')
     search_fields = ('ism', 'telefon')
 
 # @admin.register(Product)
